@@ -17,6 +17,7 @@ int printf(const char* restrict format, ...) {
 	va_start(parameters, format);
 
 	int written = 0;
+    char outbuf[128];
 
 	while (*format != '\0') {
 		size_t maxrem = INT_MAX - written;
@@ -61,6 +62,20 @@ int printf(const char* restrict format, ...) {
 			if (!print(str, len))
 				return -1;
 			written += len;
+        } else if (*format == 'd') {
+            format++;
+            int val = va_arg(parameters, int);
+            size_t len = itoa(outbuf, val, 10);
+            if (!print(outbuf, len))
+                return -1;
+            written += len;
+        } else if (*format == 'x') {
+            format++;
+            int val = va_arg(parameters, int);
+            size_t len = itoa(outbuf, val, 16);
+            if (!print(outbuf, len))
+                return -1;
+            written += len;
 		} else {
 			format = format_begun_at;
 			size_t len = strlen(format);

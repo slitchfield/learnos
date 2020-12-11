@@ -1,6 +1,8 @@
-DEFAULT_HOST!=../default-host.sh
+DEFAULT_HOST:= $(shell ../default-host.sh)
+$(info DEFAULT_HOST is $(DEFAULT_HOST))
 HOST?=DEFAULT_HOST
-HOSTARCH!=../target-triplet-to-arch.sh $(HOST)
+HOSTARCH:= $(shell ../target-triplet-to-arch.sh $(HOST) )
+$(info HOSTARCH is $(HOSTARCH))
 
 CFLAGS?=-O2 -g
 CPPFLAGS?=
@@ -38,6 +40,7 @@ string/memcpy.o \
 string/memmove.o \
 string/memset.o \
 string/strlen.o \
+string/itoa.o
 
 HOSTEDOBJS=\
 $(ARCH_HOSTEDOBJS) \
@@ -83,7 +86,7 @@ install: install-headers install-libs
 
 install-headers:
 	mkdir -p $(DESTDIR)$(INCLUDEDIR)
-	cp -R --preserve=timestamps include/. $(DESTDIR)$(INCLUDEDIR)/.
+	cp -R include/. $(DESTDIR)$(INCLUDEDIR)/.
 
 install-libs: $(BINARIES)
 	mkdir -p $(DESTDIR)$(LIBDIR)

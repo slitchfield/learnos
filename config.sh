@@ -3,7 +3,7 @@ PROJECTS="libc kernel"
 
 export MAKE=${MAKE:-make}
 export HOST=${HOST:-$(./default-host.sh)}
-
+echo "Host: $HOST"
 export AR=${HOST}-ar
 export AS=${HOST}-as
 export CC=${HOST}-gcc
